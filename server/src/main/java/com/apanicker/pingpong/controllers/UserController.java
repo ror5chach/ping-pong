@@ -12,11 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ping")
-public class PingController {
+@RequestMapping("/user")
+public class UserController {
 
-    @GetMapping
-    public String getAsset() {
-        return "pong";
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getBookById(@PathVariable String id) {
+        return ResponseEntity.ok(userService.getBookById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<User> addUser(@RequestBody AddUserRequest request) {
+        return ResponseEntity.ok(userService.addUser(request));
     }
 }
